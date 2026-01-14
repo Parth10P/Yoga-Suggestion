@@ -6,7 +6,6 @@ const unsafeKeywords = [
   "prenatal",
   "medical",
   "surgery",
-  "pain",
   "doctor",
   "hospital",
   "hernia",
@@ -19,7 +18,6 @@ const unsafeKeywords = [
   "stroke",       // Added
   "injury",
   "diagnosis",
-  "cure",
   "treatment",
   "medication",
 ];
