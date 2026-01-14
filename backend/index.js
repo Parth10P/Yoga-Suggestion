@@ -21,7 +21,12 @@ app.use("/", apiRoutes);
 // Seed Data (if empty)
 ragService.seedData();
 
-// Export for Vercel
+
+app.get("/test", (req, res) => {
+  res.status(200).send("Server is up and running..");
+});
+
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running http://localhost:${process.env.PORT}`);
 });

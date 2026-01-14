@@ -28,4 +28,4 @@ const interactionSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Interaction", interactionSchema);
+module.exports = mongoose.model("Yoga-Suggestion-System-logs", interactionSchema);
