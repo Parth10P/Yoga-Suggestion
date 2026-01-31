@@ -42,9 +42,14 @@ function AnswerCard({ answer, sources, poses, onFeedback }) {
                       }}
                     />
                   </div>
-                  <span className="mt-2 text-[10px] sm:text-xs font-semibold text-gray-600 dark:text-gray-400 text-center uppercase tracking-tight truncate w-full px-1">
+                  <span className="mt-2 text-[10px] sm:text-xs font-bold text-gray-900 dark:text-gray-100 text-center uppercase tracking-tight truncate w-full px-1">
                     {pose.name}
                   </span>
+                  {pose.sanskrit && (
+                    <span className="text-[9px] sm:text-[10px] italic text-gray-500 dark:text-gray-400 text-center truncate w-full px-1">
+                      {pose.sanskrit}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>

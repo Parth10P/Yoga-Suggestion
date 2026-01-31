@@ -72,6 +72,10 @@ const init = async () => {
   for (const p of merged) {
     if (!p.name) continue;
     const key = p.name.toLowerCase().trim();
+
+    // Skip generic "Pose" or empty strings that might be in the dataset
+    if (key === "" || key === "pose") continue;
+
     if (!seen.has(key)) {
       seen.add(key);
       unique.push(p);
