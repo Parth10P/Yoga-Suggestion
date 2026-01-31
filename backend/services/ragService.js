@@ -4,7 +4,6 @@ const {
   upsertVectors,
   queryVectors,
   ensureIndex,
-  deleteAllVectors,
 } = require("./pineconeService");
 const { findPosesInText } = require("./poseService");
 const fs = require("fs");
@@ -89,10 +88,6 @@ const seedData = async () => {
     console.log("Initializing Seeding Process...");
     console.log("Checking Pinecone Index...");
     await ensureIndex();
-
-    console.log("Clearing existing vectors from Pinecone...");
-    await deleteAllVectors();
-    console.log("Index cleared.");
 
     const dataPath = path.join(__dirname, "../data/yoga_knowledge.json");
     if (!fs.existsSync(dataPath)) {

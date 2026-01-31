@@ -1,8 +1,8 @@
-# Yoga Suggestion RAG App
+# Yoga Suggestion RAG App 🧘‍♀️🤖
 
 A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to provide accurate, context-aware yoga recommendations. It combines local embeddings, a vector database, and the Google Gemini AI model to answer your yoga-related queries safely and effectively.
 
-## Core Features
+## 🚀 Features
 
 - **Smart Suggestions:** Ask any yoga question and get AI-generated answers based on curated yoga knowledge.
 - **RAG Architecture:** Uses **Pinecone** for vector storage and **Xenova/transformers** for high-performance local embeddings to retrieve relevant context.
@@ -12,52 +12,7 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
 - **Modern UI:** Built with **React** and **Tailwind CSS**, featuring a clean, responsive design with dark mode support and smooth animations.
 - **Source Citations:** Answers strictly cite sources from the internal knowledge base for credibility.
 
-## RAG Architecture
-
-The following diagram illustrates the RAG (Retrieval-Augmented Generation) pipeline used by the assistant:
-
-```text
-    USER QUESTION
-          ↓
-    "What yoga poses help with back pain?"
-          ↓
-┌─────────────────────────────────────────────┐
-│ STEP 1: EMBEDDING (Local - Xenova)         │
-│ Convert question to vector using           │
-│ all-MiniLM-L6-v2 model                     │
-└─────────────────────────────────────────────┘
-          ↓
-┌─────────────────────────────────────────────┐
-│ STEP 2: RETRIEVAL (Pinecone)               │
-│ Search for similar vectors & return context │
-│ Top 3 matches found:                       │
-│   1. Bhujangasana (Cobra Pose)             │
-│   2. Marjariasana (Cat Pose)               │
-│   3. Balasana (Child's Pose)               │
-└─────────────────────────────────────────────┘
-          ↓
-┌─────────────────────────────────────────────┐
-│ STEP 3: AUGMENTATION                       │
-│ Build context from retrieved data:         │
-│ Title + Info + Benefits + Precautions      │
-└─────────────────────────────────────────────┘
-          ↓
-┌─────────────────────────────────────────────┐
-│ STEP 4: GENERATION (Gemini API)            │
-│ Create natural response using context       │
-│ Model: gemini-flash-latest                 │
-└─────────────────────────────────────────────┘
-          ↓
-┌─────────────────────────────────────────────┐
-│ STEP 5: POSE SERVICE MATCHING (Display)    │
-│ Extract pose names from answer and link    │
-│ to high-quality images from HF Datasets    │
-└─────────────────────────────────────────────┘
-          ↓
-    NATURAL, ACCURATE RESPONSE + POSE IMAGES
-```
-
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 
@@ -74,7 +29,7 @@ The following diagram illustrates the RAG (Retrieval-Augmented Generation) pipel
 - **@google/generative-ai** (AI Response Generation)
 - **Dotenv** (Environment Management)
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 ├── backend/
@@ -90,7 +45,7 @@ The following diagram illustrates the RAG (Retrieval-Augmented Generation) pipel
     │   └── assets/     # Static assets
 ```
 
-## Getting Started
+## ⚡ Getting Started
 
 ### Prerequisites
 
@@ -140,11 +95,11 @@ The following diagram illustrates the RAG (Retrieval-Augmented Generation) pipel
     npm run dev
     ```
 
-## API Endpoints
+## 🛡️ API Endpoints
 
 - `POST /api/chat/ask`: Submit a yoga question. returns answer, sources, and safety warning.
 - `POST /api/chat/feedback`: Submit helpfulness feedback (up/down) for an answer.
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements.
