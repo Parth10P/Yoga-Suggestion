@@ -48,6 +48,7 @@ function App() {
         safetyWarning: data.isUnsafe,
         sources: data.sources.map((s, i) => ({ id: i, title: s })),
         id: data.id,
+        poses: data.poses,
       };
 
       setMessages((prev) => [...prev, botMessage]);

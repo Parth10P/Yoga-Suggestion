@@ -29,6 +29,7 @@ function ChatMessage({ message, onFeedback }) {
             <AnswerCard
               answer={message.content}
               sources={message.sources || []}
+              poses={message.poses || []}
               onFeedback={onFeedback}
             />
           </div>
