@@ -5,6 +5,7 @@ const {
   queryVectors,
   ensureIndex,
 } = require("./pineconeService");
+const { findPosesInText } = require("./poseService");
 const fs = require("fs");
 const path = require("path");
 
@@ -27,7 +28,7 @@ const getAnswer = async (question) => {
     // Map matches to context text
     const context = matches.map((match) => match.metadata.text).join("\n\n");
     const sources = matches.map(
-      (match) => match.metadata.source || "General Knowledge"
+      (match) => match.metadata.source || "General Knowledge",
     );
 
     console.log(`   Found ${matches.length} relevant matches.`);
@@ -60,11 +61,13 @@ const getAnswer = async (question) => {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log("4. Answer received.");
+    // 5. Find relevant poses for display
+    const relevantPoses = findPosesInText(text);
 
     return {
       answer: text,
       sources: [...new Set(sources)], // Unique sources
+      poses: relevantPoses,
     };
   } catch (error) {
     console.error("Error in getAnswer:", error);
@@ -105,8 +108,8 @@ const seedData = async () => {
 
       process.stdout.write(
         `Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(
-          items.length / batchSize
-        )}... `
+          items.length / batchSize,
+        )}... `,
       );
 
       for (const item of batch) {

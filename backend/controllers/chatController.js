@@ -46,6 +46,7 @@ const askQuestion = async (req, res) => {
       id: interaction._id,
       answer: ragResult.answer,
       sources: ragResult.sources,
+      poses: ragResult.poses,
       isUnsafe: false,
     });
   } catch (error) {
