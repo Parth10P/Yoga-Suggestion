@@ -1,8 +1,8 @@
-# Yoga Suggestion RAG App 🧘‍♀️🤖
+# Yoga Suggestion RAG App
 
 A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to provide accurate, context-aware yoga recommendations. It combines local embeddings, a vector database, and the Google Gemini AI model to answer your yoga-related queries safely and effectively.
 
-## 🚀 Features
+## Features
 
 - **Smart Suggestions:** Ask any yoga question and get AI-generated answers based on curated yoga knowledge.
 - **RAG Architecture:** Uses **Pinecone** for vector storage and **Xenova/transformers** for high-performance local embeddings to retrieve relevant context.
@@ -12,7 +12,7 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
 - **Modern UI:** Built with **React** and **Tailwind CSS**, featuring a clean, responsive design with dark mode support and smooth animations.
 - **Source Citations:** Answers strictly cite sources from the internal knowledge base for credibility.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -29,7 +29,7 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
 - **@google/generative-ai** (AI Response Generation)
 - **Dotenv** (Environment Management)
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 ├── backend/
@@ -45,7 +45,7 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
     │   └── assets/     # Static assets
 ```
 
-## ⚡ Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -95,11 +95,11 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
     npm run dev
     ```
 
-## 🛡️ API Endpoints
+## API Endpoints
 
 - `POST /api/chat/ask`: Submit a yoga question. returns answer, sources, and safety warning.
 - `POST /api/chat/feedback`: Submit helpfulness feedback (up/down) for an answer.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements.
