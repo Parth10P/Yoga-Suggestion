@@ -4,6 +4,7 @@ const {
   upsertVectors,
   queryVectors,
   ensureIndex,
+  deleteAllVectors,
 } = require("./pineconeService");
 const { findPosesInText } = require("./poseService");
 const fs = require("fs");
@@ -35,24 +36,25 @@ const getAnswer = async (question) => {
 
     // 3. Construct Prompt
     const prompt = `
-    You are a helpful and knowledgeable Yoga Assistant. 
-    Use the following context to answer the user's question.
-
-    STRICT FORMATTING RULES:
-    1. **NO long paragraphs.**
-    2. Answer **mainly in bullet points** for readability.
-    3. Keep sentences short and concise.
-    4. Limit the answer to 3-5 key points if possible.
-
-    Constraints:
-    - If the answer is not in the context, use general knowledge but mention it.
-    - Do NOT give medical advice.
+    You are an expert yoga instructor with deep knowledge of the Common Yoga Protocol. Your role is to:
     
-    Context:
+    1. Provide accurate, helpful yoga guidance based ONLY on the provided knowledge base
+    2. Always mention specific yoga poses with both Sanskrit and English names
+    3. Include relevant benefits for the user's question
+    4. CRITICALLY IMPORTANT: Always include safety precautions and contraindications
+    5. Be warm, encouraging, and supportive
+    6. If asked about something not in the knowledge base, be honest and suggest 
+       consulting a qualified yoga instructor
+    7. Never invent information - stick to what's provided
+    
+    KNOWLEDGE BASE (Authentic Yoga Protocol Information):
     ${context}
     
     User Question: ${question}
-    
+
+    Please provide a comprehensive, helpful answer that addresses the user's question 
+    using the above information. Structure your response clearly with poses, benefits, 
+    and precautions.
     Answer:
     `;
 
@@ -87,6 +89,10 @@ const seedData = async () => {
     console.log("Initializing Seeding Process...");
     console.log("Checking Pinecone Index...");
     await ensureIndex();
+
+    console.log("Clearing existing vectors from Pinecone...");
+    await deleteAllVectors();
+    console.log("Index cleared.");
 
     const dataPath = path.join(__dirname, "../data/yoga_knowledge.json");
     if (!fs.existsSync(dataPath)) {
