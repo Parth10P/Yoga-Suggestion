@@ -3,13 +3,24 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --color-surface: #fff9ef;
+  --color-surface-low: #f9f3ea;
+  --color-surface-container: #f3ede4;
+  --color-surface-lowest: #ffffff;
+  --color-surface-highest: #e8ded2;
+  --color-primary: #F38D40;
+  --color-secondary: #76C87F;
+  --color-tertiary: #FFCC66;
+  --color-neutral: #F5EFE6;
+  --color-on-surface: #1d1b16;
+
+  font-family: "Manrope", system-ui, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--color-on-surface);
+  background-color: var(--color-surface);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,21 +32,31 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
 }
 
 @theme {
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+
+  --color-surface: #fff9ef;
+  --color-surface-low: #f9f3ea;
+  --color-surface-container: #f3ede4;
+  --color-surface-lowest: #ffffff;
+  --color-om-primary: #F38D40;
+  --color-om-secondary: #76C87F;
+  --color-om-tertiary: #FFCC66;
+  --color-om-neutral: #F5EFE6;
+  --color-om-text: #1d1b16;
+
   --animate-float: float 6s ease-in-out infinite;
   --animate-shimmer: shimmer 2s linear infinite;
 
   @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
   }
 }
+

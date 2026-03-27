@@ -15,13 +15,11 @@ function ChatMessage({ message, onFeedback }) {
         className={`max-w-[85%] md:max-w-[75%] flex flex-col ${isUser ? "items-end" : "items-start"}`}
       >
         {isUser ? (
-          <div className="flex items-center gap-3">
-            <div className="bg-indigo-600 text-white px-5 py-3 rounded-2xl rounded-tr-none shadow-lg text-lg">
+          <div className="flex items-center justify-end">
+            <div className="bg-[#A45A22] text-[#fff9ef] px-6 py-4 rounded-[2rem] rounded-tr-lg shadow-sm text-lg font-body max-w-2xl leading-relaxed">
               {message.content}
             </div>
-            <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center shrink-0">
-              <User className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            </div>
+            
           </div>
         ) : (
           <div className="space-y-4 w-full">

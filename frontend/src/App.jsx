@@ -4,6 +4,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import SearchInput from "./components/SearchInput";
 import LoadingState from "./components/LoadingState";
 import ChatMessage from "./components/ChatMessage";
+import { Home, MessageSquare, Layers, User } from "lucide-react";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -86,9 +87,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-gray-900 dark:text-gray-100 font-sans selection:bg-indigo-100 dark:selection:bg-indigo-900/30 flex flex-col">
-      <ThemeToggle />
-
+    <div className="min-h-screen bg-[var(--color-surface)] text-[var(--color-on-surface)] font-body flex flex-col selection:bg-[var(--color-primary)]/20 transition-colors duration-500">
+      
       {/* Header Area */}
       <div
         className={`transition-all duration-500 flex flex-col items-center ${messages.length > 0 ? "py-4" : "flex-1 justify-center p-8"}`}
@@ -98,7 +98,7 @@ function App() {
 
       {/* Chat Messages Area */}
       <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-32">
-        <div className="max-w-4xl mx-auto w-full space-y-4">
+        <div className="max-w-4xl mx-auto w-full space-y-8">
           {messages.map((msg, index) => (
             <ChatMessage
               key={index}
@@ -115,18 +115,15 @@ function App() {
         </div>
       </div>
 
-      {/* Sticky Input Area */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-zinc-950 dark:via-zinc-950/80 dark:to-transparent">
-        <div className="max-w-3xl mx-auto">
+      {/* Floating Pill Input Bar */}
+      <div className="fixed bottom-6 left-0 right-0 px-4 md:px-8 pointer-events-none flex justify-center z-20">
+        <div className="max-w-3xl w-full pointer-events-auto">
           <SearchInput
             query={query}
             setQuery={setQuery}
             handleAsk={handleAsk}
             isLoading={isLoading}
           />
-          <p className="text-center text-xs text-gray-500 mt-4">
-            AI can make mistakes. Consider checking important information.
-          </p>
         </div>
       </div>
     </div>
