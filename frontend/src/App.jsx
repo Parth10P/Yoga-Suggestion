@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import Header from "./components/Header";
-import ThemeToggle from "./components/ThemeToggle";
 import SearchInput from "./components/SearchInput";
 import LoadingState from "./components/LoadingState";
 import ChatMessage from "./components/ChatMessage";
-import { Home, MessageSquare, Layers, User } from "lucide-react";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -23,14 +21,18 @@ function App() {
   const handleAsk = async () => {
     if (!query.trim()) return;
 
+    const question = query.trim();
+
     const userMessage = {
       role: "user",
-      content: query,
+      content: question,
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setQuery("");
     setIsLoading(true);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/query`, {
@@ -38,31 +40,42 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ question: query }),
+        body: JSON.stringify({ question }),
+        signal: controller.signal,
       });
 
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || data.error || "Request failed");
+      }
 
       const botMessage = {
         role: "bot",
         content: data.answer,
         safetyWarning: data.isUnsafe,
-        sources: data.sources.map((s, i) => ({ id: i, title: s })),
+        sources: (data.sources || []).map((s, i) => ({ id: i, title: s })),
         id: data.id,
-        poses: data.poses,
+        poses: data.poses || [],
       };
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Error fetching answer:", error);
+      const isTimeout = error.name === "AbortError";
       const errorMessage = {
         role: "bot",
-        content: "Sorry, something went wrong. Please try again later.",
+        content: isTimeout
+          ? "The server took too long to respond. This usually means the model is still loading or the query path is too slow."
+          : error.message === "Initializing, retry shortly"
+            ? "The backend is still warming up. Please wait a few seconds and try again."
+            : "Sorry, something went wrong. Please try again later.",
         safetyWarning: false,
         sources: [],
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
+      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
