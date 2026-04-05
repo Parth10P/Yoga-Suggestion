@@ -1,7 +1,11 @@
-sentence-transformers
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# Pin CPU-only torch so Render doesn't download the large CUDA/NVIDIA stack.
+torch==2.2.2+cpu ; python_version < "3.12"
+
+sentence-transformers==2.7.0
 langchain-groq
 python-dotenv
 pinecone
-
-fastapi[standard]
-uvicorn
+fastapi
+uvicorn[standard]
