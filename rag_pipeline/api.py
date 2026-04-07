@@ -17,6 +17,8 @@ from pinecone import Pinecone
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 
+from prompt_temp import prompt as YOGA_PROMPT_TEMPLATE
+
 # Load environment variables
 load_dotenv()
 
@@ -24,7 +26,7 @@ load_dotenv()
 app = FastAPI(
     title="Yoga RAG API",
     description="Query API for Yoga knowledge base using Pinecone vector search",
-    version="1.0.0",
+    version="1.0",
 )
 
 # Add CORS middleware for frontend
@@ -135,15 +137,8 @@ def generate_answer(query: str, documents: List[dict]) -> str:
         [f"Document {i + 1}: {doc['content']}" for i, doc in enumerate(documents)]
     )
 
-    # Create prompt
-    prompt = f"""You are a knowledgeable yoga instructor. Use the following context from yoga documents to answer the user's question.
-
-Context:
-{context}
-
-Question: {query}
-
-Provide a clear, concise answer based on the context above. If the context doesn't contain relevant information, say so."""
+    # Format and use imported prompt template
+    prompt = YOGA_PROMPT_TEMPLATE.format(context=context, question=query)
 
     # Generate response
     response = llm.invoke(prompt)
