@@ -1,16 +1,17 @@
 # Yoga Suggestion RAG App
 
-A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to provide accurate, context-aware yoga recommendations. It combines local embeddings, a vector database, and the Google Gemini AI model to answer your yoga-related queries safely and effectively.
+A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to provide accurate, context-aware yoga recommendations. It combines local embeddings, Pinecone vector database, and Groq LLM to answer your yoga-related queries safely and effectively.
 
 ## Features
 
 - **Smart Suggestions:** Ask any yoga question and get AI-generated answers based on curated yoga knowledge.
-- **RAG Architecture:** Uses **Pinecone** for vector storage and **Xenova/transformers** for high-performance local embeddings to retrieve relevant context.
-- **Gemini AI Integration:** Powered by Google's **Gemini Flash** (`gemini-flash-latest`) model for fast and natural language generation.
-- **Safety First:** Includes a custom **Safety Service** that detects and blocks inappropriate or medical-related queries (e.g., "pregnancy", "injury") using keyword and fuzzy matching.
+- **RAG Architecture:** Uses **Pinecone** for vector storage and **Sentence Transformers** for local embeddings to retrieve relevant context.
+- **Groq LLM Integration:** Powered by **Llama 3.3 70B** for fast and natural language generation.
+- **Modular Prompts:** Prompt templates are stored separately in `prompt_temp.py` for easy customization.
+- **Safety First:** Handles greetings separately from yoga queries; blocks inappropriate medical claims when context is insufficient.
 - **Feedback System:** Tracks user interactions and feedback (thumbs up/down) to monitor answer quality.
-- **Modern UI:** Built with **React** and **Tailwind CSS**, featuring a clean, responsive design with dark mode support and smooth animations.
-- **Source Citations:** Answers strictly cite sources from the internal knowledge base for credibility.
+- **Modern UI:** Built with **React** and **Tailwind CSS**, featuring a clean, responsive design.
+- **Source Citations:** Answers cite sources from the internal knowledge base for credibility.
 
 ## Tech Stack
 
@@ -20,86 +21,113 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
 - **Tailwind CSS** (Styling & Animations)
 - **Lucide React** (Icons)
 
-### Backend
+### Backend (Python)
 
-- **Node.js / Express** (Server)
-- **Mongoose** (MongoDB Interaction for logging)
+- **FastAPI** (Python Web Framework)
+- **Sentence Transformers** (Local Embeddings - `all-MiniLM-L6-v2`)
 - **Pinecone** (Vector Database for RAG)
-- **@xenova/transformers** (Local Embeddings generation)
-- **@google/generative-ai** (AI Response Generation)
-- **Dotenv** (Environment Management)
+- **LangChain Groq** (LLM Integration)
+- **Pydantic** (Data Validation)
 
 ## Project Structure
 
 ```
-├── backend/
-│   ├── config/         # DB and AI configurations
-│   ├── controllers/    # Request handlers (Chat, Feedback)
-│   ├── models/         # MongoDB schemas (Interaction Logs)
-│   ├── routes/         # API routes
-│   └── services/       # Business logic (RAG, Safety, Embeddings, Pinecone)
+├── rag_pipeline/
+│   ├── api.py              # FastAPI application main file
+│   ├── prompt_temp.py      # Prompt templates for LLM
+│   ├── requirements.txt    # Python dependencies
+│   └── notebook/           # Jupyter notebooks for data processing
+│       └── document.ipynb
 │
-└── frontend/
-    ├── src/
-    │   ├── components/ # Reusable UI components (Header, SearchInput, AnswerCard)
-    │   └── assets/     # Static assets
+├── backend/                # Legacy Node.js backend (if present)
+├── frontend/               # React frontend
+│   └── ...
+└── README.md
 ```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js installed
-- MongoDB instance (Local or Atlas)
+- Python 3.11+
+- Node.js (for frontend)
 - Pinecone Account & API Key
-- Google Gemini API Key
+- Groq API Key
 
 ### Installation
 
-1.  **Clone the repository**
+1. **Clone the repository**
 
-    ```bash
-    git clone https://github.com/Parth10P/Yoga-suggestion.git
-    cd Yoga-suggestion
-    ```
+   ```bash
+   git clone https://github.com/Parth10P/Yoga-suggestion.git
+   cd Yoga-suggestion
+   ```
 
-2.  **Setup Backend**
+2. **Setup Python Backend**
 
-    ```bash
-    cd backend
-    npm install
-    ```
+   ```bash
+   cd rag_pipeline
+   pip install -r requirements.txt
+   ```
 
-    Create a `.env` file in the `backend` directory:
+   Create a `.env` file in the `rag_pipeline` directory:
 
-    ```env
-    PORT=8082
-    MONGO_URI=your_mongodb_connection_string
-    GEMINI_API_KEY=your_google_gemini_key
-    PINECONE_API_KEY=your_pinecone_api_key
-    PINECONE_INDEX=your_pinecone_index_name
-    SEED_DB=false  # Set to true only if you need to seed data initially
-    ```
+   ```env
+   PINECONE_API_KEY=your_pinecone_api_key
+   PINECONE_INDEX_NAME=your_pinecone_index_name
+   GROQ_API_KEY=your_groq_api_key
+   PORT=8000
+   ```
 
-    Start the server:
+   Start the server:
 
-    ```bash
-    npm start
-    ```
+   ```bash
+   python api.py
+   # Or with uvicorn directly:
+   uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-3.  **Setup Frontend**
+3. **Setup Frontend**
 
-    ```bash
-    cd ../frontend
-    npm install
-    npm run dev
-    ```
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
 
 ## API Endpoints
 
-- `POST /api/chat/ask`: Submit a yoga question. returns answer, sources, and safety warning.
-- `POST /api/chat/feedback`: Submit helpfulness feedback (up/down) for an answer.
+- `GET /`: Root endpoint with API info
+- `GET /health`: Health check
+- `POST /query`: Submit a yoga question. Returns answer, sources, and detected poses.
+  ```json
+  {
+    "question": "What poses help with back pain?",
+    "top_k": 3
+  }
+  ```
+- `POST /feedback`: Submit helpfulness feedback (up/down) for an answer.
+  ```json
+  {
+    "questionId": "uuid",
+    "feedback": "up"
+  }
+  ```
 
-## Contributing
+## Customizing Prompts
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements.
+The prompt template is stored in `rag_pipeline/prompt_temp.py`. Edit this file to customize:
+
+- Instructions for yoga pose recommendations
+- Greeting responses
+- Safety guidelines
+- Response structure
+
+Example from `prompt_temp.py`:
+```python
+prompt = """
+You are a professional yoga instructor and wellness guide.
+Your goal is to suggest yoga practices based ONLY on the provided context.
+...
+"""
+```
