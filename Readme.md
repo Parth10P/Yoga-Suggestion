@@ -106,13 +106,6 @@ A smart Yoga assistant that uses **Retrieval-Augmented Generation (RAG)** to pro
     "top_k": 3
   }
   ```
-- `POST /feedback`: Submit helpfulness feedback (up/down) for an answer.
-  ```json
-  {
-    "questionId": "uuid",
-    "feedback": "up"
-  }
-  ```
 
 ## Customizing Prompts
 

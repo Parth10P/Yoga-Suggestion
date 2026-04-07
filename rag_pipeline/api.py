@@ -57,11 +57,6 @@ class QueryRequest(BaseModel):
     top_k: int = 3
 
 
-class FeedbackRequest(BaseModel):
-    questionId: str
-    feedback: str
-
-
 class QueryResponse(BaseModel):
     id: str
     answer: str
@@ -237,21 +232,6 @@ def query_endpoint(request: QueryRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/feedback")
-def feedback_endpoint(request: FeedbackRequest):
-    """Handle user feedback.
-
-    Args:
-        request: FeedbackRequest with questionId and feedback type
-
-    Returns:
-        Success message
-    """
-    # Log feedback (can be extended to store in database)
-    print(f"Feedback received: questionId={request.questionId}, feedback={request.feedback}")
-    return {"message": "Feedback received successfully"}
 
 
 if __name__ == "__main__":
