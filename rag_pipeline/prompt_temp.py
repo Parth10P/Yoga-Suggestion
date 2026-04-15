@@ -17,6 +17,13 @@ Guidelines:
 
 Instructions:
 - For yoga-related queries:
+  - First output a section exactly in this format:
+    POSES TO DISPLAY:
+    - English Pose Name | Sanskrit Pose Name
+    - English Pose Name | Sanskrit Pose Name
+  - Include only the 1 to 4 most relevant poses.
+  - If a Sanskrit name is not available in the context, use `Unknown`.
+  - After that section, continue with the user-friendly answer.
   - Provide:
     1. Pose name
     2. Short description
